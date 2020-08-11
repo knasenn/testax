@@ -12,9 +12,11 @@ git:
 
 before_script:
     - npm install
+    
+script:
     - npm start
 
-script:
+after_script:
     - npm test
 
 after_success:

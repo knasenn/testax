@@ -39,7 +39,7 @@ const By = require("selenium-webdriver").By;
 let browser;
 
 // Test Suite
-test.describe("Multipage", function() {
+test.describe("React App tests", function() {
 
     test.beforeEach(function(done) {
         this.timeout(20000);
@@ -56,13 +56,37 @@ test.describe("Multipage", function() {
     });
 
     // Test case
-    test.it("Test index", function(done) {
+    test.it("Start-page", function(done) {
         // Check correct title
         this.timeout(20000);
         browser.getTitle().then(function(title) {
-            console.log("--");
-            console.log(title);
-            console.log("--");
+            assert.equal(title, "React App");
+        });
+
+        // Check correct heading
+        browser.findElement(By.css("h3")).then(function(element) {
+            element.getText().then(function(text) {
+                assert.equal(text, "Me");
+            });
+        });
+
+        // Check correct URL ending
+        browser.getCurrentUrl().then(function(url) {
+            assert.ok(url.endsWith("/"));
+        });
+
+        done();
+    });
+
+
+    test.it("Test week 1", function(done) {
+        // Use nav link to go to home page
+        browser.findElement(By.linkText("Kmom01")).then(function(element) {
+            element.click();
+        });
+
+        this.timeout(20000);
+        browser.getTitle().then(function(title) {
             assert.equal(title, "React App");
         });
 
@@ -80,27 +104,4 @@ test.describe("Multipage", function() {
 
         done();
     });
-
-
-    //
-    // test.it("Test go to Home", function(done) {
-    //     // Use nav link to go to home page
-    //     browser.findElement(By.linkText("Home")).then(function(element) {
-    //         element.click();
-    //     });
-    //
-    //     // Check correct heading
-    //     browser.findElement(By.css("h1")).then(function(element) {
-    //         element.getText().then(function(text) {
-    //             assert.equal(text, "Home");
-    //         });
-    //     });
-    //
-    //     // Check correct URL ending
-    //     browser.getCurrentUrl().then(function(url) {
-    //         assert.ok(url.endsWith("multipage/#!/"));
-    //     });
-    //
-    //     done();
-    // });
 });
